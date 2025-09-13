@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <>
       <section className="bg-white py-20">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-12 lg:flex-row">
+        <div className="container mx-auto px-6 flex flex-col items-center justify-between gap-12 lg:flex-row">
           {/* Left content */}
           <div className="text-center lg:text-left max-w-xl">
             <h1 className="text-5xl lg:text-7xl font-black font-sans leading-tight">
@@ -20,11 +21,23 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* Right content (e.g., image) */}
+          {/* Right content */}
           <div className="flex justify-center lg:justify-end">
-            
-            <Image src="/image.png" alt="Pizza" width={400} height={400}/>
+            <Image src="/image.png" alt="Pizza" width={400} height={400} />
           </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container py-12 ml-32">
+          <Tabs defaultValue="Pizza" className="w-[400px]">
+            <TabsList>
+              <TabsTrigger value="pizza">Pizza</TabsTrigger>
+              <TabsTrigger value="beverages">Beverages</TabsTrigger>
+            </TabsList>
+            <TabsContent value="pizza">Pizza List</TabsContent>
+            <TabsContent value="beverages">Beverages List</TabsContent>
+          </Tabs>
         </div>
       </section>
     </>
