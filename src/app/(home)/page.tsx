@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -21,8 +22,8 @@ export default function Home() {
 
           {/* Right content (e.g., image) */}
           <div className="flex justify-center lg:justify-end">
-            right
-            {/* <Image src="/pizza.png" alt="Pizza" width={400} height={400}/> */}
+            
+            <Image src="/image.png" alt="Pizza" width={400} height={400}/>
           </div>
         </div>
       </section>
