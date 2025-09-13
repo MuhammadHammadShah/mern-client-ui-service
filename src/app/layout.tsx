@@ -23,12 +23,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          manrope.variable,
-          "min-h-screen bg-background font-sans antialiased"
+          "min-h-screen bg-background font-sans antialiased __variable_73ee6c",
+          manrope.variable
         )}
       >
-        <Header/>
-        <main>{children}</main>
+        <Header />
+        <main className="">{children}</main>
       </body>
     </html>
   );
