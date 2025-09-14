@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import ToppingList from "./topping-list";
 
 export type Product = {
   id: string;
@@ -58,6 +58,7 @@ const ProductCard = ({ product }: PropTypes) => {
                   height={450}
                 />
               </div>
+              {/* Right Side */}
               <div className="w-2/3 p-8">
                 <h3 className="text-xl font-bold">{product.name}</h3>
                 <p className="mt-1">{product.description}</p>
@@ -150,6 +151,8 @@ const ProductCard = ({ product }: PropTypes) => {
                     </div>
                   </RadioGroup>
                 </div>
+                {/* Toppings */}
+                <ToppingList />
               </div>
             </div>
           </DialogContent>
