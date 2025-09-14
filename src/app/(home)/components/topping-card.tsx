@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CircleCheck } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 
 // prop
 export type Topping = {
