@@ -1,56 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
-import ProductCard, { Product } from "./components/product-card";
-import { Category } from "@/lib/types";
-
-const products: Product[] = [
-  {
-    id: "1",
-    name: "tandori Pizza",
-    description: "tasty wow",
-    image: "/image.png",
-    price: 500,
-  },
-  {
-    id: "2",
-    name: "tandori Pizza",
-    description: "tasty wow",
-    image: "/image.png",
-    price: 500,
-  },
-  {
-    id: "3",
-    name: "tandori Pizza",
-    description: "tasty wow",
-    image: "/image.png",
-    price: 500,
-  },
-  {
-    id: "4",
-    name: "tandori Pizza",
-    description: "tasty wow",
-    image: "/image.png",
-    price: 500,
-  },
-  {
-    id: "5",
-    name: "tandori Pizza",
-    description: "tasty wow",
-    image: "/image.png",
-    price: 500,
-  },
-  {
-    id: "6",
-    name: "tandori Pizza",
-    description: "tasty wow",
-    image: "/image.png",
-    price: 500,
-  },
-];
+import ProductCard from "./components/product-card";
+import { Category, Product } from "@/lib/types";
 
 export default async function Home() {
-  //
+  // todo: do concurrent requests -> Promise.all()
   const categoryResponse = await fetch(
     `${process.env.BACKEND_URL}/api/catalog/categories`,
     {
@@ -66,6 +21,22 @@ export default async function Home() {
 
   const categories: Category[] = await categoryResponse.json();
   console.log(categories);
+  //
+
+  // todo: Add Pagination
+
+  const productsResponse = await fetch(
+    // todo: add dynaic tenantId
+    `${process.env.BACKEND_URL}/api/catalog/products`,
+    {
+      next: {
+        revalidate: 3600, // 1h
+      },
+    }
+  );
+
+  const products: { data: Product[] } = await productsResponse.json();
+  console.log("Productssssss >>> ", products);
   //
   return (
     <>
@@ -94,30 +65,43 @@ export default async function Home() {
 
       <section>
         <div className="container py-12 ml-32">
-          <Tabs defaultValue="Pizza" className="">
+          <Tabs defaultValue={categories[0]._id} className="">
             <TabsList>
+              {categories.map((category) => {
+                return (
+                  <TabsTrigger
+                    key={category._id}
+                    value={category._id}
+                    className="text-md"
+                  >
+                    {category.name}
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
             {categories.map((category) => {
               return (
-<TabsTrigger key={category._id} value={category._id} className="text-md">{category.name}</TabsTrigger>
-             
-              )
+                <TabsContent key={category._id} value={category._id}>
+                  <div className="grid grid-cols-4 gap-6 mt-6">
+                    {products.data
+                      .filter(
+                        (product) => product.categoryId._id === category._id
+                      )
+                      .map((product) => (
+                        <ProductCard product={product} key={product._id} />
+                      ))}
+                  </div>
+                </TabsContent>
+              );
             })}
-              
-            </TabsList>
-            <TabsContent value="pizza">
+
+            {/* <TabsContent value="beverages">
               <div className="grid grid-cols-4 gap-6 mt-6">
                 {products.map((product) => (
                   <ProductCard product={product} key={product.id} />
                 ))}
               </div>
-            </TabsContent>
-            <TabsContent value="beverages">
-              <div className="grid grid-cols-4 gap-6 mt-6">
-                {products.map((product) => (
-                  <ProductCard product={product} key={product.id} />
-                ))}
-              </div>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
       </section>

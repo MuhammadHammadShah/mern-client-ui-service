@@ -1,9 +1,8 @@
 export interface Tenant {
-    id:string
-    name:string
-    address:string
+  id: string;
+  name: string;
+  address: string;
 }
-
 
 export interface PriceConfiguration {
   [key: string]: {
@@ -25,3 +24,20 @@ export interface Category {
   priceConfiguration: PriceConfiguration;
   attributes: Attribute[];
 }
+
+export type ProductAttribute = {
+  name: string;
+  value: string | boolean;
+};
+
+export type Product = {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+  categoryId: Category;
+  priceConfiguration: PriceConfiguration;
+  attributes: ProductAttribute[];
+  isPublish: boolean;
+  createdAt: string;
+};
