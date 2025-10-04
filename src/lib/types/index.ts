@@ -35,7 +35,7 @@ export type Product = {
   name: string;
   image: string;
   description: string;
-  categoryId: Category;
+  categoryId: string;
   priceConfiguration: PriceConfiguration;
   attributes: ProductAttribute[];
   isPublish: boolean;
