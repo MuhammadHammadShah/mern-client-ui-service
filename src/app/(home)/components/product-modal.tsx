@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { Suspense } from "react";
 import ToppingList from "./topping-list";
 import { Product } from "@/lib/types";
 
@@ -141,7 +141,9 @@ const ProductModal = ({ product }: { product: Product }) => {
               </RadioGroup>
             </div> */}
             {/* Toppings */}
-            <ToppingList />
+            <Suspense fallback={"loading..."}>
+              <ToppingList />
+            </Suspense>
             {/* footer */}
             <div className="flex items-center justify-between mt-12">
               <span className="font-bold">400 pkr</span>
