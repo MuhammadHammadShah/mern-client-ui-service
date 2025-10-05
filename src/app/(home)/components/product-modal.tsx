@@ -7,7 +7,7 @@ import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import React, { startTransition, Suspense, useState } from "react";
 import ToppingList from "./topping-list";
-import { Product } from "@/lib/types";
+import { Product, Topping } from "@/lib/types";
 
 type ChosenConfig = {
   [key: string]: string;
@@ -15,6 +15,24 @@ type ChosenConfig = {
 
 const ProductModal = ({ product }: { product: Product }) => {
   const [choosenConfig, setChoosenConfig] = useState<ChosenConfig>();
+   const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
+  const handle_CheckBox_Check = (topping: Topping) => {
+    const isAlreadyExists = selectedToppings.some(
+      (element) => element.id === topping.id
+    );
+
+    //
+    startTransition(() => {
+      if (isAlreadyExists) {
+        setSelectedToppings((prev) =>
+          prev.filter((elm) => elm.id !== topping.id)
+        );
+        return;
+      }
+
+      setSelectedToppings((prev) => [...prev, topping]);
+    });
+  };
   const handleRadioChange = (key: string, data: string) => {
     startTransition(() => {
       setChoosenConfig((prev) => {
@@ -160,7 +178,7 @@ const ProductModal = ({ product }: { product: Product }) => {
             </div> */}
             {/* Toppings */}
             <Suspense fallback={"loading..."}>
-              <ToppingList />
+              <ToppingList selectedToppings={selectedToppings} handle_CheckBox_Check={(handle_CheckBox_Check)} />
             </Suspense>
             {/* footer */}
             <div className="flex items-center justify-between mt-12">
