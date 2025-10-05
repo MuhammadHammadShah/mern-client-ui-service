@@ -5,11 +5,26 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import React, { Suspense } from "react";
+import React, { startTransition, Suspense, useState } from "react";
 import ToppingList from "./topping-list";
 import { Product } from "@/lib/types";
 
+type ChosenConfig = {
+  [key: string]: string;
+};
+
 const ProductModal = ({ product }: { product: Product }) => {
+  const [choosenConfig, setChoosenConfig] = useState<ChosenConfig>();
+  const handleRadioChange = (key: string, data: string) => {
+    startTransition(() => {
+      setChoosenConfig((prev) => {
+        return {
+          ...prev,
+          [key]: data,
+        };
+      });
+    });
+  };
   //
   const handleAddToCart = () => {
     console.log("addd........");
@@ -46,6 +61,9 @@ const ProductModal = ({ product }: { product: Product }) => {
                     <h3 className="mt6">Choose The {key}</h3>
                     <RadioGroup
                       defaultValue={value.availableOptions[0]}
+                      onValueChange={(data) => {
+                        handleRadioChange(key, data);
+                      }}
                       className="grid grid-cols-3 gap-4 mt-2"
                     >
                       {value.availableOptions.map((option) => {
