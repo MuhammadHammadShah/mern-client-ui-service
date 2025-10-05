@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -9,6 +10,11 @@ import ToppingList from "./topping-list";
 import { Product } from "@/lib/types";
 
 const ProductModal = ({ product }: { product: Product }) => {
+  //
+  const handleAddToCart = () => {
+    console.log("addd........");
+  };
+  //
   return (
     <Dialog>
       <DialogTrigger
@@ -139,7 +145,7 @@ const ProductModal = ({ product }: { product: Product }) => {
             {/* footer */}
             <div className="flex items-center justify-between mt-12">
               <span className="font-bold">400 pkr</span>
-              <Button>
+              <Button onClick={handleAddToCart}>
                 <ShoppingCart size={20} />
                 <span className="ml-2">Add to Cart</span>
               </Button>
