@@ -25,20 +25,26 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
-      return {
-        cartItems: [
-          ...state.cartItems,
-          {
-            product: action.payload.product,
-            choosenConfiguration: action.payload.choosenConfiguration,
-          },
-        ],
+      const newItems = {
+        product: action.payload.product,
+        choosenConfiguration: action.payload.choosenConfiguration,
       };
+
+      window.localStorage.setItem(
+        "cartItems",
+        JSON.stringify([...state.cartItems, newItems])
+      );
+      return {
+        cartItems: [...state.cartItems, newItems],
+      };
+    },
+    setInitialCartItems: (state, action: PayloadAction<CartItem[]>) => {
+      state.cartItems.push(...action.payload);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, setInitialCartItems } = cartSlice.actions;
 
 export default cartSlice.reducer;

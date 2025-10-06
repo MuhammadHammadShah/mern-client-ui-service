@@ -9,7 +9,12 @@ import {
 import { Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tenant } from "@/lib/types";
-import CartCounter from "./cart-counter";
+
+import dynamic from "next/dynamic";
+
+const CartCounterWithoutSSR = dynamic(() => import("./cart-counter"), {
+  ssr: false,
+});
 
 const Header = async () => {
   //
@@ -81,7 +86,7 @@ const Header = async () => {
             </li>
           </ul>
           {/*  */}
-          <CartCounter />
+          <CartCounterWithoutSSR />
           {/*  */}
           <div className="flex items-center ml-12">
             <Phone />
