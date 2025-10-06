@@ -8,14 +8,19 @@ import Image from "next/image";
 import React, { startTransition, Suspense, useState } from "react";
 import ToppingList from "./topping-list";
 import { Product, Topping } from "@/lib/types";
+import { useAppDispatch } from "@/lib/store/hooks";
+import { addToCart } from "@/lib/store/features/cart/cartSlice";
 
 type ChosenConfig = {
   [key: string]: string;
 };
 
 const ProductModal = ({ product }: { product: Product }) => {
-  const [choosenConfig, setChoosenConfig] = useState<ChosenConfig>();
-   const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
+  ////////
+  const dispatch = useAppDispatch();
+  /////////
+  const [chosenConfig, setChoosenConfig] = useState<ChosenConfig>();
+  const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
   const handle_CheckBox_Check = (topping: Topping) => {
     const isAlreadyExists = selectedToppings.some(
       (element) => element.id === topping.id
@@ -44,8 +49,16 @@ const ProductModal = ({ product }: { product: Product }) => {
     });
   };
   //
-  const handleAddToCart = () => {
+  const handleAddToCart = (product: Product) => {
     console.log("addd........");
+    const itemToAdd = {
+      product,
+      choosenConfiguration: {
+        priceConfiguration: chosenConfig!,
+        selectedToppings: selectedToppings,
+      },
+    };
+    dispatch(addToCart(itemToAdd));
   };
   //
   return (
@@ -178,12 +191,19 @@ const ProductModal = ({ product }: { product: Product }) => {
             </div> */}
             {/* Toppings */}
             <Suspense fallback={"loading..."}>
-              <ToppingList selectedToppings={selectedToppings} handle_CheckBox_Check={(handle_CheckBox_Check)} />
+              <ToppingList
+                selectedToppings={selectedToppings}
+                handle_CheckBox_Check={handle_CheckBox_Check}
+              />
             </Suspense>
             {/* footer */}
             <div className="flex items-center justify-between mt-12">
               <span className="font-bold">400 pkr</span>
-              <Button onClick={handleAddToCart}>
+              <Button
+                onClick={() => {
+                  handleAddToCart(product);
+                }}
+              >
                 <ShoppingCart size={20} />
                 <span className="ml-2">Add to Cart</span>
               </Button>
