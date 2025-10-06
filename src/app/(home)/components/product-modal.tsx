@@ -19,7 +19,20 @@ const ProductModal = ({ product }: { product: Product }) => {
   ////////
   const dispatch = useAppDispatch();
   /////////
-  const [chosenConfig, setChoosenConfig] = useState<ChosenConfig>();
+  //////////
+  const defaultConfiguration = Object.entries(
+    product.category.priceConfiguration
+  )
+    .map(([key, value]) => {
+      return {
+        [key]: value.availableOptions[0],
+      };
+    })
+    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
+  //////////
+  const [chosenConfig, setChoosenConfig] = useState<ChosenConfig>(
+    defaultConfiguration as unknown as ChosenConfig
+  );
   const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
   const handle_CheckBox_Check = (topping: Topping) => {
     const isAlreadyExists = selectedToppings.some(
