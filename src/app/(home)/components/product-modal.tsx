@@ -34,6 +34,24 @@ const ProductModal = ({ product }: { product: Product }) => {
     defaultConfiguration as unknown as ChosenConfig
   );
   const [selectedToppings, setSelectedToppings] = useState<Topping[]>([]);
+  //
+  //
+  const totalPrice = React.useMemo(() => {
+    const toppingTotal = selectedToppings.reduce(
+      (acc, crr) => acc + crr.price,
+      0
+    );
+    const configPricing = Object.entries(chosenConfig).reduce(
+      (acc, [key, value]: [string, string]) => {
+        const price = product.priceConfiguration[key].availableOptions[value];
+        return acc + price;
+      },
+      0
+    );
+    return configPricing + toppingTotal;
+  }, [chosenConfig, selectedToppings, product]);
+  //
+  //
   const handle_CheckBox_Check = (topping: Topping) => {
     const isAlreadyExists = selectedToppings.some(
       (element) => element.id === topping.id
@@ -211,7 +229,7 @@ const ProductModal = ({ product }: { product: Product }) => {
             </Suspense>
             {/* footer */}
             <div className="flex items-center justify-between mt-12">
-              <span className="font-bold">400 pkr</span>
+              <span className="font-bold">{totalPrice} pkr</span>
               <Button
                 onClick={() => {
                   handleAddToCart(product);

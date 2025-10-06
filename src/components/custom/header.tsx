@@ -9,12 +9,8 @@ import {
 import { Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tenant } from "@/lib/types";
+import CartCounterWithoutSSR from "./CartCounterWrapper";
 
-import dynamic from "next/dynamic";
-
-const CartCounterWithoutSSR = dynamic(() => import("./cart-counter"), {
-  ssr: false,
-});
 
 const Header = async () => {
   //
