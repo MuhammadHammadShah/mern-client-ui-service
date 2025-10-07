@@ -221,12 +221,17 @@ const ProductModal = ({ product }: { product: Product }) => {
               </RadioGroup>
             </div> */}
             {/* Toppings */}
-            <Suspense fallback={"loading..."}>
-              <ToppingList
-                selectedToppings={selectedToppings}
-                handle_CheckBox_Check={handle_CheckBox_Check}
-              />
-            </Suspense>
+            {/* todo: make this condition dynamic (Add hasToppings field in category document. (Backend))  */}
+            {/* {This solution is not scalable!!!} */}
+            {product.category.name === "Pizza" && (
+              <Suspense fallback={"loading..."}>
+                <ToppingList
+                  selectedToppings={selectedToppings}
+                  handle_CheckBox_Check={handle_CheckBox_Check}
+                />
+              </Suspense>
+            )}
+
             {/* footer */}
             <div className="flex items-center justify-between mt-12">
               <span className="font-bold">{totalPrice} pkr</span>
